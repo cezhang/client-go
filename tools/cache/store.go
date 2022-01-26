@@ -22,7 +22,14 @@ import (
 
 	"k8s.io/apimachinery/pkg/api/meta"
 )
+/*CR:
 
+- 基础存储接口
+
+- 格式: map[key]accumulators
+
+- 对accumulatrs里对象的基本操作
+ */
 // Store is a generic object storage and processing interface.  A
 // Store holds a map from string keys to accumulators, and has
 // operations to add, update, and delete a given object to/from the
