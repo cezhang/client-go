@@ -59,6 +59,13 @@ type ThreadSafeStore interface {
 	Resync() error
 }
 
+/* CR:
+
+- 理清几个关键概念： indexName, indexFunc, indexValue, key
+- indexFunc(obj) -> indexValue
+- items -> key : item, indexFunc(item) -> indexValue
+-
+ */
 // threadSafeMap implements ThreadSafeStore
 type threadSafeMap struct {
 	lock  sync.RWMutex
