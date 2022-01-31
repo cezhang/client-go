@@ -62,11 +62,14 @@ type ThreadSafeStore interface {
 /* CR:
 
 - 理清几个关键概念： indexName, indexFunc, indexValue, key，keyFunc, obj
-- indexFunc(obj) -> indexValue
 - items -> key : obj
 - keyFunc(obj) -> key
 - indexFunc(obj) -> indexValue
 
+- 参考 https://jimmysong.io/kubernetes-handbook/develop/client-go-informer-sourcecode-analyse.html
+items:存储具体的对象，比如key为ns/podName，value为pod{}
+Indexers:一个map[string]IndexFunc结构，其中key为索引的名称，如’namespace’字符串，value则是一个具体的索引函数
+Indices:一个map[string]Index结构，其中key也是索引的名称，value是一个map[string]sets.String结构，其中key是具体的namespace，如default这个ns，vlaue则是这个ns下的按照索引函数求出来的值的集合，比如default这个ns下的所有pod对象名称
  */
 // threadSafeMap implements ThreadSafeStore
 type threadSafeMap struct {
