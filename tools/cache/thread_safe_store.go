@@ -61,10 +61,12 @@ type ThreadSafeStore interface {
 
 /* CR:
 
-- 理清几个关键概念： indexName, indexFunc, indexValue, key
+- 理清几个关键概念： indexName, indexFunc, indexValue, key，keyFunc, obj
 - indexFunc(obj) -> indexValue
-- items -> key : item, indexFunc(item) -> indexValue
--
+- items -> key : obj
+- keyFunc(obj) -> key
+- indexFunc(obj) -> indexValue
+
  */
 // threadSafeMap implements ThreadSafeStore
 type threadSafeMap struct {
