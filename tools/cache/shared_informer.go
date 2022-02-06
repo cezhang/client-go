@@ -418,6 +418,10 @@ func (s *sharedIndexInformer) Run(stopCh <-chan struct{}) {
 		WatchErrorHandler: s.watchErrorHandler,
 	}
 
+	/* CR:
+	为什么 create controll 要单独放在routine里？
+	假如执行比Run晚会出现什么情况？
+	 */
 	func() {
 		s.startedLock.Lock()
 		defer s.startedLock.Unlock()
