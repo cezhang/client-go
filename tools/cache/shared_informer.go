@@ -394,6 +394,11 @@ func (s *sharedIndexInformer) SetTransform(handler TransformFunc) error {
 	return nil
 }
 
+/* CR:
+- init and run controller
+- run cacheMutationDetector
+- run processor
+ */
 func (s *sharedIndexInformer) Run(stopCh <-chan struct{}) {
 	defer utilruntime.HandleCrash()
 
@@ -437,6 +442,9 @@ func (s *sharedIndexInformer) Run(stopCh <-chan struct{}) {
 	defer wg.Wait()              // Wait for Processor to stop
 	defer close(processorStopCh) // Tell Processor to stop
 	wg.StartWithChannel(processorStopCh, s.cacheMutationDetector.Run)
+	/* CR:
+	- 什么时候call AddEventHandler() 添加listeners
+	 */
 	wg.StartWithChannel(processorStopCh, s.processor.run)
 
 	defer func() {
@@ -777,6 +785,9 @@ func (p *processorListener) add(notification interface{}) {
 	p.addCh <- notification
 }
 
+/* CR:
+- https://github.com/cezhang/cezhang.github.io/blob/main/cr/draw_io/processorListener_pop().drawio.png
+ */
 func (p *processorListener) pop() {
 	defer utilruntime.HandleCrash()
 	defer close(p.nextCh) // Tell .run() to stop

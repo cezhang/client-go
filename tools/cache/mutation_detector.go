@@ -94,6 +94,9 @@ type cacheObj struct {
 	copied interface{}
 }
 
+/* CR:
+- 周期性对比obj和obj的copy
+ */
 func (d *defaultCacheMutationDetector) Run(stopCh <-chan struct{}) {
 	// we DON'T want protection from panics.  If we're running this code, we want to die
 	for {
